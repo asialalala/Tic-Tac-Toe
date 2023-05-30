@@ -3,7 +3,10 @@
 
 #include <QMainWindow>
 #include <QSplitter>
+#include <QString>
 #include "Place.h"
+#include "game.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,8 +24,9 @@ private slots:
     void on_addButton_clicked();// SLOT-handler pressing add button
     void slotGetNumber();           // SLOT for getting number of the dynamic buttons
 
-
 private:
     Ui::MainWindow *ui;
+    Game game;
+
 };
 #endif // MAINWINDOW_H

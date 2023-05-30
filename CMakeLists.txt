@@ -18,8 +18,10 @@ set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         Place.cpp
+        Game.cpp
         mainwindow.h
         Place.h
+        Game.h
         mainwindow.ui
 
 )

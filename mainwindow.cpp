@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include <QDebug>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -17,15 +18,26 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_addButton_clicked()
 {
-    Place *button = new Place(this);  // Create a dynamic button object
-    /* Set the text with number of button
-     * */
-    button->setText("Numer " + QString::number(button->getID()));
-    // Adding a button to the bed with a vertical layout
-    ui->gridLayout->addWidget(button);
-    // Connect the signal to the slot pressing buttons produce numbers
 
-    connect(button, SIGNAL(clicked()), this, SLOT(slotGetNumber()));
+    game.setX((ui->spinBoxX->text()).toInt());
+    game.setY((ui->spinBoxY->text()).toInt());
+
+    for(int i = 0; i < game.getY(); i++)
+    {
+        for(int j = 0; j < game.getX(); j++)
+        {
+            Place *button = new Place(this);  // Create a dynamic button object
+            // Set the text with number of button
+            button->setText("Numer " + QString::number(button->getID()));
+            // Adding a button to the bed with a vertical layout
+            ui->gridLayout->addWidget(button, i, j);
+            // Connect the signal to the slot pressing buttons produce numbers
+
+            connect(button, SIGNAL(clicked()), this, SLOT(slotGetNumber()));
+        }
+    }
+
+
 }
 
 
@@ -42,6 +54,7 @@ void MainWindow::slotGetNumber()
      * and this number corresponds to the button you pressed
      * */
 }
+
 
 
 
