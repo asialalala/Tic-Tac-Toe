@@ -34,14 +34,17 @@ void MainWindow::on_addButton_clicked()
             // Connect the signal to the slot pressing buttons produce numbers
 
             connect(button, SIGNAL(clicked()), this, SLOT(slotGetNumber()));
+            connect(button, SIGNAL(clicked()), this, SLOT(slotPut0()));
         }
     }
 
-
+    ui->addButton->setEnabled(false); // turn off the butto to add places
 }
 
 
-
+/*!
+ * \brief MainWindow::slotGetNumber writes number ID in place in right
+ */
 void MainWindow::slotGetNumber()
 {
     // To determine the object that caused the signal
@@ -53,6 +56,18 @@ void MainWindow::slotGetNumber()
      * when we press one of the dynamic keys,
      * and this number corresponds to the button you pressed
      * */
+}
+
+/*!
+ * \brief MainWindow::slotPut0 set "o" on the button and enable
+ * the button
+ */
+void MainWindow::slotPut0()
+{
+    // To determine the object that caused the signal
+    Place *button = (Place*) sender();
+    button->setText("o"); // set "o"
+    button->setEnabled(false); // turn off the button
 }
 
 

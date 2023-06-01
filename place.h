@@ -13,6 +13,13 @@
 #include <QWidget>
 #include <QPushButton>
 
+/*!
+ * \file
+ * \brief The Place class
+ *
+ * The file icludes definition of class Place
+ * that
+ */
 class Place : public QPushButton
 {
      Q_OBJECT

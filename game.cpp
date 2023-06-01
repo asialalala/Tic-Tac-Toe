@@ -5,7 +5,7 @@
  */
 Game::Game()
 {
-
+    Places = new Place[(X+1)*(Y+1)];
 }
 
 /*!
@@ -41,6 +41,14 @@ void Game::setY(int y)
 int Game::getY() const
 {
     return Y;
+}
+
+/*!
+ * \brief Game::~Game
+ */
+Game::~Game()
+{
+    delete [] Places;
 }
 
 
