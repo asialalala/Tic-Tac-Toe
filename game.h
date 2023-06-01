@@ -22,6 +22,7 @@ public:
     ~Game();
     Place * getPlacesPtr() const;
     void setPlacesPtr(int n,  Place * ptr);
+    void allocatePlaces();
 };
 
 #endif // GAME_H

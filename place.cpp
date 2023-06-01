@@ -1,4 +1,5 @@
 #include "Place.h"
+#include <QDebug>
 
 /*!
  * \brief Place::Place Constructor of class Place which counts number of Places
@@ -9,6 +10,7 @@ Place::Place(QWidget *parent) :
 {
     ResID++;            // Increment of counter by one
     buttonID = ResID;   // Assigning a button number which will be further work with buttons
+    qDebug() << "konstruktor" << buttonID;
 }
 
 /*!

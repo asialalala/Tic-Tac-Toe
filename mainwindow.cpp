@@ -24,30 +24,34 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_addButton_clicked()
 {
-
+    // set elements of game
     game.setX((ui->spinBoxX->text()).toInt());
     game.setY((ui->spinBoxY->text()).toInt());
+    game.allocatePlaces();
 
+    // create buttons
     for(int i = 0; i < game.getY(); i++)
     {
         for(int j = 0; j < game.getX(); j++)
         {
-            Place *button = new Place(this);  // Create a dynamic button object
+            Place * button = &(game.getPlacesPtr()[i*game.getX()+j]);
+           // qDebug() << game.getPlacesPtr()[i*game.getX()+j].getID();
             // Set the text with number of button
-            button->setText("Numer " + QString::number(button->getID()));
+           // game.getPlacesPtr()[j].setText("Numer " + QString::number(game.getPlacesPtr()[i*game.getX()+j].getID()));
             // Adding a button to the bed with a vertical layout
+
             ui->gridLayout->addWidget(button, i, j);
             // Connect the signal to the slot pressing buttons produce numbers
 
             connect(button, SIGNAL(clicked()), this, SLOT(slotGetNumber()));
             connect(button, SIGNAL(clicked()), this, SLOT(slotPut0()));
 
-            game.getPlacesPtr()[j] = * button;
 
         }
     }
 
-    ui->addButton->setEnabled(false); // turn off the butto to add places
+
+    ui->addButton->setEnabled(false); // turn off the button of adding places
 }
 
 

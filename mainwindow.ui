@@ -14,60 +14,41 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="addButton">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>260</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Add</string>
-    </property>
-   </widget>
-   <widget class="QWidget" name="gridLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>9</x>
-      <y>9</y>
-      <width>561</width>
-      <height>531</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout"/>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>350</y>
-      <width>113</width>
-      <height>24</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="spinBoxX">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>20</y>
-      <width>44</width>
-      <height>25</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="spinBoxY">
-    <property name="geometry">
-     <rect>
-      <x>730</x>
-      <y>20</y>
-      <width>44</width>
-      <height>25</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="2" column="2">
+     <widget class="QSpinBox" name="spinBoxY"/>
+    </item>
+    <item row="4" column="1" colspan="2">
+     <widget class="QPushButton" name="addButton">
+      <property name="text">
+       <string>Upload size of board</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit"/>
+    </item>
+    <item row="1" column="1" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Choos size of label X</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Choos size of label Y</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" rowspan="5">
+     <layout class="QGridLayout" name="gridLayout"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QSpinBox" name="spinBoxX"/>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

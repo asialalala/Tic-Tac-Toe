@@ -1,11 +1,14 @@
 #include "Game.h"
+#include <QDebug>
 
 /*!
  * \brief Game::Game
  */
 Game::Game()
 {
-    Places = new Place[(X+1)*(Y+1)];
+    X = 0;
+    Y = 0;
+    Places = nullptr;
 }
 
 /*!
@@ -60,5 +63,14 @@ Place * Game::getPlacesPtr() const
     return Places;
 }
 
+
+/*!
+ * \brief Game::allocatePlaces, allocate the array Places with size XxY
+ */
+void Game::allocatePlaces()
+{
+    Places = new Place[(X)*(Y)];
+    qDebug() << "allocate";
+}
 
 
