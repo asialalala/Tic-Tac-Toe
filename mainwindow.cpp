@@ -2,7 +2,10 @@
 #include "./ui_mainwindow.h"
 #include <QDebug>
 
-
+/*!
+ * \brief MainWindow::MainWindow
+ * \param parent
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -11,6 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 
+/*!
+ * \brief MainWindow::~MainWindow
+ */
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -35,6 +41,9 @@ void MainWindow::on_addButton_clicked()
 
             connect(button, SIGNAL(clicked()), this, SLOT(slotGetNumber()));
             connect(button, SIGNAL(clicked()), this, SLOT(slotPut0()));
+
+            game.getPlacesPtr()[j] = * button;
+
         }
     }
 
@@ -69,6 +78,8 @@ void MainWindow::slotPut0()
     button->setText("o"); // set "o"
     button->setEnabled(false); // turn off the button
 }
+
+
 
 
 

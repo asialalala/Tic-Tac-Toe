@@ -5,7 +5,7 @@
 #include <QSplitter>
 #include <QString>
 #include "Place.h"
-#include "game.h"
+#include "Game.h"
 
 
 QT_BEGIN_NAMESPACE

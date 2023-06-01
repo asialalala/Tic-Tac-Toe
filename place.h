@@ -28,6 +28,8 @@ public:
     ~Place();
     static int ResID;   // A static variable counter buttons rooms
     int getID();        // Function to return a local number buttons
+    Place& operator=(Place rhs);
+    Place(Place const& copy);
 
 public slots:
 

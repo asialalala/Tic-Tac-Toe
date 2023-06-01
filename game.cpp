@@ -1,4 +1,4 @@
-#include "game.h"
+#include "Game.h"
 
 /*!
  * \brief Game::Game
@@ -49,6 +49,15 @@ int Game::getY() const
 Game::~Game()
 {
     delete [] Places;
+}
+
+/*!
+ * \brief getPlacePtr
+ * \return Places
+ */
+Place * Game::getPlacesPtr() const
+{
+    return Places;
 }
 
 

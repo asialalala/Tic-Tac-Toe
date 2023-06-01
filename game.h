@@ -20,6 +20,8 @@ public:
     int getX() const;
     int getY() const;
     ~Game();
+    Place * getPlacesPtr() const;
+    void setPlacesPtr(int n,  Place * ptr);
 };
 
 #endif // GAME_H

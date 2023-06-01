@@ -32,3 +32,25 @@ int Place::getID()
  * \brief QPlace::ResID  global initialization of static variable
  */
 int Place::ResID = 0;
+
+/*!
+ * \brief Place::operator =, sign operator
+ * \param rhs
+ * \return *this
+ */
+Place& Place::operator=(Place rhs) // Pass by value (thus generating a copy)
+        {
+
+            std::swap(this->buttonID, rhs.buttonID);
+            return *this;
+        }
+
+/*!
+ * \brief Place::Place, copy constructor
+ * \param copy
+ */
+Place::Place(Place const& copy)
+{
+    buttonID = copy.buttonID;
+}
+
