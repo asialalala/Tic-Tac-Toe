@@ -29,6 +29,9 @@ void MainWindow::on_addButton_clicked()
     game.setY((ui->spinBoxY->text()).toInt());
     game.allocatePlaces();
 
+    ui->spinBoxX->setEnabled(false); // turn off shoosing size X
+    ui->spinBoxY->setEnabled(false); // turn off shoosing size Y
+
     // create buttons
     for(int i = 0; i < game.getY(); i++)
     {
@@ -49,7 +52,6 @@ void MainWindow::on_addButton_clicked()
 
         }
     }
-
 
     ui->addButton->setEnabled(false); // turn off the button of adding places
 }
