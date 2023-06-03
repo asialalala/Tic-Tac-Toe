@@ -92,6 +92,8 @@ void MainWindow::slotPut0()
     button->setText("o"); // set "o"
     button->setEnabled(false); // turn off the button
     button->setOff(true); // sign information about turning off
+    qDebug() << game.evaluateBoard();
+    button->setState(o);
 
     //game.AIMove();
 }

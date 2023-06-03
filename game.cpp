@@ -84,6 +84,151 @@ void Game::allocatePlaces()
        }
 }
 
+
+/*!
+ * \brief Game::getTurn
+ * \return turn
+ */
+bool Game::getTurn() const
+{
+    return turn;
+}
+
+/*!
+ * \brief Game::setGameEnd
+ */
+void Game::setGameEnd(bool value)
+{
+    GameEnd = value;
+}
+
+int Game::evaluateBoard()
+{
+    // evaluate vertical wil condition X
+    for(int i = 0; i < Y; i++)
+    {
+        if(Places[i][0].getState() != x)
+            break;
+        if(i == X-1) // end of board
+        {
+            GameEnd = true;
+            qDebug() << "X wygrało.\n";
+            return 10;
+        }
+    }
+
+    // evaluate vertical wil condition O
+    for(int i = 0; i < Y; i++)
+    {
+        if(Places[i][0].getState() != o)
+            break;
+        if(i == X-1) // end of board
+        {
+            GameEnd = true;
+            qDebug() << "O wygrało.\n";
+            return -10;
+        }
+    }
+
+    // evaluate hirizontal wil condition X
+    for(int i = 0; i < X; i++)
+    {
+        if(Places[i][0].getState() != x)
+            break;
+        if(i == X-1) // end of board
+        {
+            GameEnd = true;
+            qDebug() << "X wygrało.\n";
+            return 10;
+        }
+    }
+
+    // evaluate hirizontal wil condition O
+    for(int i = 0; i < X; i++)
+    {
+        if(Places[i][0].getState() != o)
+            break;
+        if(i == X-1) // end of board
+        {
+            GameEnd = true;
+            qDebug() << "O wygrało.\n";
+            return -10;
+        }
+    }
+
+
+
+
+    // to trzeba będzie zmienić
+
+    // evaluate diagonary wil condition "\" X
+    for(int i = 0; i < X; i++)
+    {
+        if(Places[i][i].getState() != x)
+            break;
+        if(i == X-1) // end of board
+        {
+            GameEnd = true;
+            qDebug() << "X wygrało.\n";
+            return 10;
+        }
+    }
+
+    // evaluate diagonary wil condition "\" O
+    for(int i = 0; i < X; i++)
+    {
+        if(Places[i][i].getState() != o)
+            break;
+        if(i == X-1) // end of board
+        {
+            GameEnd = true;
+            qDebug() << "O wygrało.\n";
+            return -10;
+        }
+    }
+
+    // evaluate diagonary wil condition "/" X
+    for(int i = 0; i < X; i++)
+    {
+        for(int j = (Y-1); j >= 0; j--)
+        {
+            if(Places[i][j].getState() != x)
+                break;
+            if(i == X-1) // end of board
+            {
+                GameEnd = true;
+                qDebug() << "X wygrało.\n";
+                return -10;
+            }
+        }
+    }
+
+    // evaluate diagonary wil condition "/"
+    for(int i = 0; i < X; i++)
+    {
+        for(int j = (Y-1); j >= 0; j--)
+        {
+            if(Places[i][j].getState() != o)
+                break;
+            if(i == X-1) // end of board
+            {
+                GameEnd = true;
+                qDebug() << "O wygrało.\n";
+                return -10;
+            }
+        }
+    }
+    return 0;  // czy to moze zwracac 0?
+}
+
+/*!
+ * \brief Game::miniMax
+ */
+/*void Game::miniMax()
+{
+
+}*/
+
 /*!
  * \brief Game::AIMove
  */
@@ -126,36 +271,3 @@ void Game::allocatePlaces()
     }
 }*/
 
-/*!
- * \brief Game::getTurn
- * \return turn
- */
-bool Game::getTurn() const
-{
-    return turn;
-}
-
-/*!
- * \brief Game::setGameEnd
- */
-void Game::setGameEnd(bool value)
-{
-    GameEnd = value;
-}
-
-/*int Game::evaluateBoard()
-{
-    // evaluate  horizontal wil condition
-    for(int i = 0; i < X; i++)
-    {
-        if(Places[0+i*X] + Places[0+i*X]+ Places[0+i*X])
-    }
-}*/
-
-/*!
- * \brief Game::miniMax
- */
-/*void Game::miniMax()
-{
-
-}*/

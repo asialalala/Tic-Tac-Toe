@@ -11,6 +11,7 @@ Place::Place(QWidget *parent) :
     ResID++;            // Increment of counter by one
     buttonID = ResID;   // Assigning a button number which will be further work with buttons
     qDebug() << "konstruktor" << buttonID;
+    PlaceState = Blank;
 }
 
 /*!
@@ -70,6 +71,24 @@ void Place::setOff(bool value)
 bool Place::getOff() const
 {
     return off;
+}
+
+/*!
+ * \brief Place::setState
+ * \param s - state of PlaceState: O, X or Blank
+ */
+void Place::setState(State s)
+{
+    PlaceState = s;
+}
+
+/*!
+ * \brief Place::getState
+ * \return PlaceState
+ */
+State Place::getState() const
+{
+    return PlaceState;
 }
 
 

@@ -31,7 +31,7 @@ public:
     bool getTurn() const;
     void setGameEnd(bool value);
     //int miniMax();
-   // int evaluateBoard();
+    int evaluateBoard();
 };
 
 #endif // GAME_H

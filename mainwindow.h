@@ -27,6 +27,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+
 private slots:
     void on_addButton_clicked();// SLOT-handler pressing add button
     void slotGetNumber();           // SLOT for getting number of the dynamic buttons

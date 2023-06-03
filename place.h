@@ -12,7 +12,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QPushButton>
-
+#include "defined.h"
 /*!
  * \file
  * \brief The Place class
@@ -32,12 +32,15 @@ public:
     Place(Place const& copy);
     bool getOff() const;
     void setOff(bool value);
+    void setState(State s);
+    State getState() const;
 
 public slots:
 
 private:
     int buttonID = 0;   // Local variable number of the button
     bool off;
+    State PlaceState;
 };
 
 #endif // PLACE_H
