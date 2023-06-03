@@ -9,6 +9,8 @@ Game::Game()
     X = 0;
     Y = 0;
     Places = nullptr;
+    GameStatus = keepUp; // the game has started and it is keeping up, noone wins
+    GameEnd = false; // it is the beginning, not the end :)
 }
 
 /*!
@@ -51,14 +53,16 @@ int Game::getY() const
  */
 Game::~Game()
 {
-    delete [] Places;
+    for (int i = 0; i < Y; i++) // To delete the Place arrays
+            delete[] Places[i];
+        delete[] Places;
 }
 
 /*!
  * \brief getPlacePtr
  * \return Places
  */
-Place * Game::getPlacesPtr() const
+Place ** Game::getPlaces() const
 {
     return Places;
 }
@@ -69,8 +73,89 @@ Place * Game::getPlacesPtr() const
  */
 void Game::allocatePlaces()
 {
-    Places = new Place[(X)*(Y)];
     qDebug() << "allocate";
+
+    Places = new  Place*[Y];
+    for (int i = 0; i < Y; i++) {
+
+           // Declare a memory block
+           // of size n
+           Places[i] = new Place[X];
+       }
 }
 
+/*!
+ * \brief Game::AIMove
+ */
+/*void Game::AIMove()
+{
+    int bestMove[3] ;
+    int minMaxEval = turn? INT_MIN : INT_MAX;
 
+    for(int i = 0; i < Y; i++)
+    {
+        for(int j = 0; j < X; j++)
+        {
+            if(!Places[i*X+j].getOff())
+            {
+                Places[i*X+j].setText(turn? "x" : "o");
+                Places[i*X+j].setOff(true);
+                int eval = miniMax();
+
+                // restor beginning setting
+                Places[i*X+j].setText(" ");
+                setGameEnd(false);
+                Places[i*X+j].setOff(false);
+
+                if(turn)
+                {
+                   if(eval > minMaxEval)
+                   {
+                      // bestMove[0] = j*X + 1; // next to right side
+                     //  bestMove[1] = i;
+                   }
+                }else
+                {
+                    //if(eval < minMaxEval)
+                     //   bestMove[0] = j*X + 1; // next to right side
+                      //  bestMove[1] = i;
+                }
+            }
+
+        }
+    }
+}*/
+
+/*!
+ * \brief Game::getTurn
+ * \return turn
+ */
+bool Game::getTurn() const
+{
+    return turn;
+}
+
+/*!
+ * \brief Game::setGameEnd
+ */
+void Game::setGameEnd(bool value)
+{
+    GameEnd = value;
+}
+
+/*int Game::evaluateBoard()
+{
+    // evaluate  horizontal wil condition
+    for(int i = 0; i < X; i++)
+    {
+        if(Places[0+i*X] + Places[0+i*X]+ Places[0+i*X])
+    }
+}*/
+
+/*!
+ * \brief Game::miniMax
+ */
+/*void Game::miniMax()
+{
+
+}*/

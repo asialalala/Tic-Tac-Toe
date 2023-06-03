@@ -19,11 +19,13 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         Place.cpp
         Game.cpp
+        # aiplayer.cpp
         mainwindow.h
         Place.h
         Game.h
+        defined.h
+       # aiplayer.h
         mainwindow.ui
-
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

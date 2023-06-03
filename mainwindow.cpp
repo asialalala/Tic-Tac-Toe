@@ -37,7 +37,7 @@ void MainWindow::on_addButton_clicked()
     {
         for(int j = 0; j < game.getX(); j++)
         {
-            Place * button = &(game.getPlacesPtr()[i*game.getX()+j]);
+            Place * button = &(game.getPlaces()[i][j]);
            // qDebug() << game.getPlacesPtr()[i*game.getX()+j].getID();
             // Set the text with number of button
            // game.getPlacesPtr()[j].setText("Numer " + QString::number(game.getPlacesPtr()[i*game.getX()+j].getID()));
@@ -49,11 +49,19 @@ void MainWindow::on_addButton_clicked()
             connect(button, SIGNAL(clicked()), this, SLOT(slotGetNumber()));
             connect(button, SIGNAL(clicked()), this, SLOT(slotPut0()));
 
-
         }
     }
 
     ui->addButton->setEnabled(false); // turn off the button of adding places
+
+
+   /*
+   for(int i=0; i < game.getX() * game.getY(); ++i)
+   {
+
+        qDebug() << i << ". ID: " <<  game.getPlaces()[i].getID() << "\n";
+    }*/
+
 }
 
 
@@ -83,6 +91,9 @@ void MainWindow::slotPut0()
     Place *button = (Place*) sender();
     button->setText("o"); // set "o"
     button->setEnabled(false); // turn off the button
+    button->setOff(true); // sign information about turning off
+
+    //game.AIMove();
 }
 
 

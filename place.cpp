@@ -56,3 +56,20 @@ Place::Place(Place const& copy)
     buttonID = copy.buttonID;
 }
 
+/*!
+ * \brief Place::setOff whe the putton is tuned off - true
+ */
+void Place::setOff(bool value)
+{
+    off = value;
+}
+
+/*!
+ * \brief Place::getOff() iformation if it is possible to use the place
+ */
+bool Place::getOff() const
+{
+    return off;
+}
+
+
