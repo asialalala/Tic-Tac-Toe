@@ -4,15 +4,10 @@
 #define SEARCH_DEPH 3
 #define SCORES_TO_WIN 3
 
-/*!
- * \brief The Status enum which informs of game's status
- */
-enum Status
-{
-    keepUp = 0,
-    Xwins = 1, // X wines (Maximizer)
-    Owins = 2, // O wines (Minimizer)
-};
+#define GREAT_NUMBER 10000
+#define SMALL_NUMBER -10000
+#define ZERO 0
+
 
 /*!
  * \brief The State enum which informs about element inludec in a place
@@ -22,5 +17,13 @@ enum State
     Blank,
     x,
     o,
+};
+
+enum Winner
+{
+    draw,
+    xwins,
+    owins,
+    nobody,
 };
 #endif // DEFINED_H

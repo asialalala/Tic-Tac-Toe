@@ -9,8 +9,8 @@ Game::Game()
     X = 0;
     Y = 0;
     Places = nullptr;
-    GameStatus = keepUp; // the game has started and it is keeping up, noone wins
     GameEnd = false; // it is the beginning, not the end :)
+    turn = true;
 }
 
 /*!
@@ -102,172 +102,264 @@ void Game::setGameEnd(bool value)
     GameEnd = value;
 }
 
-int Game::evaluateBoard()
+/*!
+ * \brief Game::whoWin
+ * \return
+ */
+Winner Game::whoWins()
 {
-    // evaluate vertical wil condition X
+    // verify vertical wil condition X
     for(int i = 0; i < Y; i++)
     {
         if(Places[i][0].getState() != x)
             break;
-        if(i == X-1) // end of board
+        if(i == X-1) // end of board X won
         {
             GameEnd = true;
             qDebug() << "X wygrało.\n";
-            return 10;
+            return xwins;
         }
     }
 
-    // evaluate vertical wil condition O
+    // verify vertical wil condition O
     for(int i = 0; i < Y; i++)
     {
         if(Places[i][0].getState() != o)
             break;
-        if(i == X-1) // end of board
+        if(i == X-1) // end of board O won
         {
             GameEnd = true;
             qDebug() << "O wygrało.\n";
-            return -10;
+            return owins;
         }
     }
 
-    // evaluate hirizontal wil condition X
+    // verify hirizontal wil condition X
     for(int i = 0; i < X; i++)
     {
         if(Places[i][0].getState() != x)
             break;
-        if(i == X-1) // end of board
+        if(i == X-1) // end of board X won
         {
             GameEnd = true;
             qDebug() << "X wygrało.\n";
-            return 10;
+            return xwins;
         }
     }
 
-    // evaluate hirizontal wil condition O
+    // verify hirizontal wil condition O
     for(int i = 0; i < X; i++)
     {
         if(Places[i][0].getState() != o)
             break;
-        if(i == X-1) // end of board
+        if(i == X-1) // end of board O won
         {
             GameEnd = true;
             qDebug() << "O wygrało.\n";
-            return -10;
+            return owins;
         }
     }
 
 
-
-
-    // to trzeba będzie zmienić
-
-    // evaluate diagonary wil condition "\" X
+    // verify diagonary wil condition "\" X
     for(int i = 0; i < X; i++)
     {
         if(Places[i][i].getState() != x)
             break;
-        if(i == X-1) // end of board
+        if(i == X-1) // end of board X won
         {
             GameEnd = true;
             qDebug() << "X wygrało.\n";
-            return 10;
+            return xwins;
         }
     }
 
-    // evaluate diagonary wil condition "\" O
+    // verify diagonary wil condition "\" O
     for(int i = 0; i < X; i++)
     {
         if(Places[i][i].getState() != o)
             break;
-        if(i == X-1) // end of board
+        if(i == X-1) // end of board O won
         {
             GameEnd = true;
             qDebug() << "O wygrało.\n";
-            return -10;
+            return owins;
         }
     }
 
-    // evaluate diagonary wil condition "/" X
+    // verify diagonary wil condition "/" X
     for(int i = 0; i < X; i++)
     {
         for(int j = (Y-1); j >= 0; j--)
         {
             if(Places[i][j].getState() != x)
                 break;
-            if(i == X-1) // end of board
+            if(i == X-1) // end of board X won
             {
                 GameEnd = true;
                 qDebug() << "X wygrało.\n";
-                return -10;
+                return xwins;
             }
         }
     }
 
-    // evaluate diagonary wil condition "/"
+    // verify diagonary wil condition "/"
     for(int i = 0; i < X; i++)
     {
         for(int j = (Y-1); j >= 0; j--)
         {
             if(Places[i][j].getState() != o)
                 break;
-            if(i == X-1) // end of board
+            if(i == X-1) // end of board O won
             {
                 GameEnd = true;
                 qDebug() << "O wygrało.\n";
-                return -10;
+                return owins;
             }
         }
     }
-    return 0;  // czy to moze zwracac 0?
+
+
+    // check if there is empty position
+    for(int i = 0; i < X; i++)
+    {
+        for(int j = 0; j < Y; j++)
+        {
+           if(Places[j][i].getState() == Blank)
+           {
+               qDebug() << "Jeszcze rozgrywka się nie skończyła.";
+               return nobody;
+           }
+        }
+    }
+    GameEnd = true;
+    return draw;  // noone won, it is draw
 }
 
 /*!
  * \brief Game::miniMax
  */
-/*void Game::miniMax()
+int Game::miniMax(int depth, int alpha, int beta, bool turn)
 {
+    Winner current = whoWins();
 
-}*/
+    if(current == xwins)
+    {
+      return GREAT_NUMBER * (depth + 1); // it prioritizes faster win
+    }
+
+    else if(current == owins)
+    {
+      return SMALL_NUMBER * (depth + 1); // it prioritizes faster win
+    }
+
+    else if(current == draw)
+    {
+      return ZERO;
+    }
+
+    else if(current == nobody && depth == 0)
+    {
+        return ZERO;
+    }
+
+    if(turn) // if maximizer
+    {
+        int maxValue = INT_MIN;
+        for(int i = 0;  i < X; i++)
+        {
+            for(int j = 0; j < Y; j++)
+            {
+                if(Places[j][i].getState() == Blank)
+                {
+                    Places[i][j].setState(x);
+                    int value = miniMax(depth - 1, alpha, beta, !turn);
+                    maxValue = std::max(maxValue, value);
+                    alpha = std::max(alpha, value);
+                    Places[i][j].setState(Blank);
+                    if(beta <= alpha)
+                        break;
+                }
+                if(beta <= alpha)
+                    break;
+            }
+        }
+     return maxValue;
+    }else // when minimizer
+    {
+        int minValue = INT_MAX;
+        for(int i = 0;  i < X; i++)
+        {
+            for(int j = 0; j < Y; j++)
+            {
+                if(Places[j][i].getState() == Blank)
+                {
+                    Places[i][j].setState(o);
+                    int value = miniMax(depth - 1, alpha, beta, !turn);
+                    minValue = std::min(minValue, value);
+                    beta = std::min(beta, value);
+                    Places[i][j].setState(Blank);
+                    if(beta <= alpha)
+                        break;
+                }
+                if(beta <= alpha)
+                    break;
+            }
+        }
+        return minValue;
+    }
+
+}
 
 /*!
  * \brief Game::AIMove
  */
-/*void Game::AIMove()
+void Game::AIMove()
 {
-    int bestMove[3] ;
+    qDebug() << "AI wykonuje ruch \n";
+    int bestMove[2] = {0,0} ;
     int minMaxEval = turn? INT_MIN : INT_MAX;
 
     for(int i = 0; i < Y; i++)
     {
         for(int j = 0; j < X; j++)
         {
-            if(!Places[i*X+j].getOff())
+            if(Places[i][j].getState() == Blank)
             {
-                Places[i*X+j].setText(turn? "x" : "o");
-                Places[i*X+j].setOff(true);
-                int eval = miniMax();
-
+                qDebug() << "petla \n";
+                qDebug() << i;
+                qDebug() << j;
+                Places[i][j].setText(turn? "x" : "o");
+                Places[i][j].setState(turn? x : o );
+                int eval = miniMax(SEARCH_DEPH, INT_MIN, INT_MAX, false);
                 // restor beginning setting
-                Places[i*X+j].setText(" ");
+                Places[i][j].setText(" ");
                 setGameEnd(false);
-                Places[i*X+j].setOff(false);
+                Places[i][j].setState(Blank);
 
+                // get the maximum evaluation if current turn is X
                 if(turn)
                 {
                    if(eval > minMaxEval)
                    {
-                      // bestMove[0] = j*X + 1; // next to right side
-                     //  bestMove[1] = i;
+                       bestMove[0] = i; // next to right side
+                       bestMove[1] = j;
+                       minMaxEval = eval;
                    }
-                }else
-                {
-                    //if(eval < minMaxEval)
-                     //   bestMove[0] = j*X + 1; // next to right side
-                      //  bestMove[1] = i;
-                }
+                }//else // get the minimum evaluation if current turn is O
+//                {
+//                    if(eval < minMaxEval)
+//                     //   bestMove[0] = j*X + 1; // next to right side
+//                      //  bestMove[1] = i;
+//                        minMaxEval = eval;
+//                }
             }
-
         }
     }
-}*/
+    qDebug() << "koniec petli \n";
+    Places[bestMove[0]][bestMove[1]].setState(x);
+    Places[bestMove[0]][bestMove[1]].setText("x");
+    Places[bestMove[0]][bestMove[1]].setEnabled(false);
 
+    qDebug() << "Ruch wykonany. \n";
+}

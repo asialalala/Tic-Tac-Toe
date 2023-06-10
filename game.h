@@ -14,7 +14,6 @@ private:
     int X;
     int Y;
     Place ** Places; // the places on the board                  a moze tu tworzyć tablicę wskaźników? a nie wskaźnik na tablicę
-    Status GameStatus; // 0 continue, 1 x wins, 2 y wins
     bool GameEnd;
     bool turn = true; // true - x, false - o
 
@@ -27,11 +26,11 @@ public:
     ~Game();
     Place ** getPlaces() const;
     void allocatePlaces();
-    //void AIMove(); // czy tutaj nie lepiej przekazywać wskaźniki?
+    void AIMove() ;
     bool getTurn() const;
     void setGameEnd(bool value);
-    //int miniMax();
-    int evaluateBoard();
+    int miniMax(int depth, int alpha, int beta, bool turn);
+    Winner whoWins();
 };
 
 #endif // GAME_H

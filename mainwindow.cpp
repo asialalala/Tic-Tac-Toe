@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include <QDebug>
 
+
 /*!
  * \brief MainWindow::MainWindow
  * \param parent
@@ -38,7 +39,7 @@ void MainWindow::on_addButton_clicked()
         for(int j = 0; j < game.getX(); j++)
         {
             Place * button = &(game.getPlaces()[i][j]);
-           // qDebug() << game.getPlacesPtr()[i*game.getX()+j].getID();
+           // qDebug() << button->getID();
             // Set the text with number of button
            // game.getPlacesPtr()[j].setText("Numer " + QString::number(game.getPlacesPtr()[i*game.getX()+j].getID()));
             // Adding a button to the bed with a vertical layout
@@ -53,14 +54,6 @@ void MainWindow::on_addButton_clicked()
     }
 
     ui->addButton->setEnabled(false); // turn off the button of adding places
-
-
-   /*
-   for(int i=0; i < game.getX() * game.getY(); ++i)
-   {
-
-        qDebug() << i << ". ID: " <<  game.getPlaces()[i].getID() << "\n";
-    }*/
 
 }
 
@@ -88,14 +81,18 @@ void MainWindow::slotGetNumber()
 void MainWindow::slotPut0()
 {
     // To determine the object that caused the signal
-    Place *button = (Place*) sender();
-    button->setText("o"); // set "o"
-    button->setEnabled(false); // turn off the button
-    button->setOff(true); // sign information about turning off
-    qDebug() << game.evaluateBoard();
-    button->setState(o);
+    QWidget * widget = (QWidget *) sender();
 
-    //game.AIMove();
+
+    int i, j, spanI, spanJ = 0;
+    ui->gridLayout->getItemPosition(ui->gridLayout->indexOf(widget), &i, &j, &spanI, &spanJ);
+
+    game.getPlaces()[i][j].setText("o"); // set "o"
+    game.getPlaces()[i][j].setState(o); // save information about state
+    game.getPlaces()[i][j].setEnabled(false); // turn off the button
+
+    game.AIMove();
+
 }
 
 
