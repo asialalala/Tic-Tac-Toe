@@ -207,7 +207,7 @@ Winner Game::whoWins()
     // verify diagonary wil condition "/" X
     for(int i = 0; i < SIZE; i++)
     {
-            if(Places[i][SIZE-i].getState() != x)
+            if(Places[i][SIZE-i-1].getState() != x)
                 break;
             if(i == SIZE-1) // end of board X won
             {
@@ -221,7 +221,7 @@ Winner Game::whoWins()
     // verify diagonary wil condition "/"
     for(int i = 0; i < SIZE; i++)
     {
-            if(Places[i][SIZE-i].getState() != o)
+            if(Places[i][SIZE-i-1].getState() != o)
                 break;
             if(i == SIZE-1) // end of board O won
             {
@@ -361,4 +361,21 @@ void Game::AIMove()
     Places[bestMove[0]][bestMove[1]].setText("x");
     Places[bestMove[0]][bestMove[1]].setEnabled(false);
 
+}
+
+/*!
+ * \brief Game::reset reset the pools of board
+ */
+void Game::reset()
+{
+    for(int i = 0; i < SIZE; i++)
+    {
+        for(int j = 0; j < SIZE; j++)
+        {
+            Places[i][j].setState(Blank);
+            Places[i][j].setEnabled(true);
+            Places[i][j].setText(" ");
+        }
+    }
+    GameEnd = false;
 }

@@ -15,18 +15,15 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="2" column="2">
-     <widget class="QSpinBox" name="spinBoxWIN"/>
-    </item>
     <item row="4" column="1" colspan="2">
-     <widget class="QPushButton" name="addButton">
+     <widget class="QPushButton" name="pushButtonReset">
       <property name="text">
-       <string>Upload size of board</string>
+       <string>Reset</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="1" colspan="2">
-     <widget class="QLineEdit" name="lineEdit"/>
+    <item row="2" column="2">
+     <widget class="QSpinBox" name="spinBoxWIN"/>
     </item>
     <item row="1" column="1" alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="label">
@@ -35,6 +32,9 @@
       </property>
      </widget>
     </item>
+    <item row="1" column="0" rowspan="6">
+     <layout class="QGridLayout" name="gridLayout"/>
+    </item>
     <item row="1" column="2" alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="label_2">
       <property name="text">
@@ -42,11 +42,15 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0" rowspan="5">
-     <layout class="QGridLayout" name="gridLayout"/>
-    </item>
     <item row="2" column="1">
      <widget class="QSpinBox" name="spinBoxSIZE"/>
+    </item>
+    <item row="5" column="1" colspan="2">
+     <widget class="QPushButton" name="addButton">
+      <property name="text">
+       <string>Upload size of board</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

@@ -32,6 +32,7 @@ public:
     int miniMax(int depth, int alpha, int beta, bool turn);
     Winner whoWins();
     bool getGameEnd();
+    void reset();
 };
 
 #endif // GAME_H

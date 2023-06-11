@@ -30,8 +30,6 @@ public:
     int getID();        // Function to return a local number buttons
     Place& operator=(Place rhs);
     Place(Place const& copy);
-    bool getOff() const;
-    void setOff(bool value);
     void setState(State s);
     State getState() const;
 
@@ -39,7 +37,6 @@ public slots:
 
 private:
     int buttonID = 0;   // Local variable number of the button
-    bool off;
     State PlaceState;
 };
 

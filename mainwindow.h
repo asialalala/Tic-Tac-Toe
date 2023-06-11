@@ -32,8 +32,8 @@ public:
 
 private slots:
     void on_addButton_clicked();// SLOT-handler pressing add button
-    void slotGetNumber();           // SLOT for getting number of the dynamic buttons
-    void slotPut0(); // SLOT for wiriting O on the clicked button
+    void slotPut0(); // SLOT for wiriting o on the clicked button
+    void on_pushButtonReset_clicked(); // reset game
 
 private:
     Ui::MainWindow *ui;

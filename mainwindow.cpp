@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    ui->pushButtonReset->setEnabled(false); // there is nothing to reset
 }
 
 /*!
@@ -51,9 +51,7 @@ void MainWindow::on_addButton_clicked()
             Place * button = &(game.getPlaces()[i][j]);
 
             ui->gridLayout->addWidget(button, i, j);
-            // Connect the signal to the slot pressing buttons produce numbers
-
-            connect(button, SIGNAL(clicked()), this, SLOT(slotGetNumber()));
+            // Connect the signal to the slot pressing buttons set 'o' and trigger AI
             connect(button, SIGNAL(clicked()), this, SLOT(slotPut0()));
 
         }
@@ -63,22 +61,6 @@ void MainWindow::on_addButton_clicked()
 
 }
 
-
-/*!
- * \brief MainWindow::slotGetNumber writes number ID in place in right
- */
-void MainWindow::slotGetNumber()
-{
-    // To determine the object that caused the signal
-    Place *button = (Place*) sender();
-    /* Then set the number of buttons in lineEdit,
-     * which is contained in the dynamic button */
-    ui->lineEdit->setText(QString::number(button->getID()));
-    /* That is the key number is set to lineEdit field only
-     * when we press one of the dynamic keys,
-     * and this number corresponds to the button you pressed
-     * */
-}
 
 /*!
  * \brief MainWindow::slotPut0 set "o" on the button and enable
@@ -127,6 +109,7 @@ void MainWindow::comunicate(Winner result)
                         game.getPlaces()[i][j].setEnabled(false);
                 }
             }
+            ui->pushButtonReset->setEnabled(true);
             break;
         case owins:
             msgBox.setText("Player O has won.");
@@ -139,6 +122,7 @@ void MainWindow::comunicate(Winner result)
                         game.getPlaces()[i][j].setEnabled(false);
                 }
             }
+            ui->pushButtonReset->setEnabled(true);
             break;
         case draw :
             msgBox.setText("Nobody has won. It is a draw.");
@@ -151,6 +135,7 @@ void MainWindow::comunicate(Winner result)
                         game.getPlaces()[i][j].setEnabled(false);
                 }
             }
+            ui->pushButtonReset->setEnabled(true);
             break;
         default :
             qDebug() << "Something has gone wrong. There is no option like that in results of the game";
@@ -161,8 +146,12 @@ void MainWindow::comunicate(Winner result)
  return;
 }
 
-
-
-
-
+/*!
+ * \brief MainWindow::on_pushButtonReset_clicked after click reset board of tic-tac-toe
+ */
+void MainWindow::on_pushButtonReset_clicked()
+{
+    game.reset();
+    ui->pushButtonReset->setEnabled(false);
+}
 

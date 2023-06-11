@@ -10,7 +10,6 @@ Place::Place(QWidget *parent) :
 {
     ResID++;            // Increment of counter by one
     buttonID = ResID;   // Assigning a button number which will be further work with buttons
-    qDebug() << "konstruktor" << buttonID;
     PlaceState = Blank;
 }
 
@@ -55,22 +54,6 @@ Place& Place::operator=(Place rhs) // Pass by value (thus generating a copy)
 Place::Place(Place const& copy)
 {
     buttonID = copy.buttonID;
-}
-
-/*!
- * \brief Place::setOff whe the putton is tuned off - true
- */
-void Place::setOff(bool value)
-{
-    off = value;
-}
-
-/*!
- * \brief Place::getOff() iformation if it is possible to use the place
- */
-bool Place::getOff() const
-{
-    return off;
 }
 
 /*!
