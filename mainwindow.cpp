@@ -26,23 +26,29 @@ MainWindow::~MainWindow()
 void MainWindow::on_addButton_clicked()
 {
     // set elements of game
-    game.setX((ui->spinBoxX->text()).toInt());
-    game.setY((ui->spinBoxY->text()).toInt());
+    int size = (ui->spinBoxSIZE->text()).toInt();
+    int win = (ui->spinBoxWIN->text()).toInt();
+
+    if(size < win)
+    {
+        QMessageBox msgBox;
+        msgBox.setText("The number of positions to win has to be less than the size. ");
+        msgBox.exec();
+        return;
+    }
+    game.setSIZE(size);
+    game.setWIN(win);
     game.allocatePlaces();
 
-    ui->spinBoxX->setEnabled(false); // turn off shoosing size X
-    ui->spinBoxY->setEnabled(false); // turn off shoosing size Y
+    ui->spinBoxSIZE->setEnabled(false); // turn off shoosing size X
+    ui->spinBoxWIN->setEnabled(false); // turn off shoosing size Y
 
     // create buttons
-    for(int i = 0; i < game.getY(); i++)
+    for(int i = 0; i < game.getSIZE(); i++)
     {
-        for(int j = 0; j < game.getX(); j++)
+        for(int j = 0; j < game.getSIZE(); j++)
         {
             Place * button = &(game.getPlaces()[i][j]);
-           // qDebug() << button->getID();
-            // Set the text with number of button
-           // game.getPlacesPtr()[j].setText("Numer " + QString::number(game.getPlacesPtr()[i*game.getX()+j].getID()));
-            // Adding a button to the bed with a vertical layout
 
             ui->gridLayout->addWidget(button, i, j);
             // Connect the signal to the slot pressing buttons produce numbers
@@ -91,8 +97,68 @@ void MainWindow::slotPut0()
     game.getPlaces()[i][j].setState(o); // save information about state
     game.getPlaces()[i][j].setEnabled(false); // turn off the button
 
-    game.AIMove();
+    Winner result = game.whoWins();
 
+    comunicate(result);
+
+    if(!game.getGameEnd()) // if it is not end AI plaies
+    {
+        game.AIMove(); // AI turn
+        result = game.whoWins(); // chech if AI has won
+        comunicate(result);
+    }
+}
+
+void MainWindow::comunicate(Winner result)
+{
+    QMessageBox msgBox;
+    switch(result)
+    {
+        case nobody:
+            return;
+        case xwins:
+            msgBox.setText("Player X has won.");
+            msgBox.exec();
+            for(int i = 0; i < game.getSIZE(); i++) // turn of the rest of buttons
+            {
+                for(int j = 0; j < game.getSIZE(); j++)
+                {
+                    if(game.getPlaces()[i][j].getState() == Blank)
+                        game.getPlaces()[i][j].setEnabled(false);
+                }
+            }
+            break;
+        case owins:
+            msgBox.setText("Player O has won.");
+            msgBox.exec();
+            for(int i = 0; i < game.getSIZE(); i++) // turn of the rest of buttons
+            {
+                for(int j = 0; j < game.getSIZE(); j++)
+                {
+                    if(game.getPlaces()[i][j].getState() == Blank)
+                        game.getPlaces()[i][j].setEnabled(false);
+                }
+            }
+            break;
+        case draw :
+            msgBox.setText("Nobody has won. It is a draw.");
+            msgBox.exec();
+            for(int i = 0; i < game.getSIZE(); i++) // turn of the rest of buttons
+            {
+                for(int j = 0; j < game.getSIZE(); j++)
+                {
+                    if(game.getPlaces()[i][j].getState() == Blank)
+                        game.getPlaces()[i][j].setEnabled(false);
+                }
+            }
+            break;
+        default :
+            qDebug() << "Something has gone wrong. There is no option like that in results of the game";
+        break;
+
+    }
+
+ return;
 }
 
 

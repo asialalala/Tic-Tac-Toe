@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="2" column="2">
-     <widget class="QSpinBox" name="spinBoxY"/>
+     <widget class="QSpinBox" name="spinBoxWIN"/>
     </item>
     <item row="4" column="1" colspan="2">
      <widget class="QPushButton" name="addButton">
@@ -31,14 +31,14 @@
     <item row="1" column="1" alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>Choos size of label X</string>
+       <string>Choos size of board</string>
       </property>
      </widget>
     </item>
     <item row="1" column="2" alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>Choos size of label Y</string>
+       <string>Choos number of position to win</string>
       </property>
      </widget>
     </item>
@@ -46,7 +46,7 @@
      <layout class="QGridLayout" name="gridLayout"/>
     </item>
     <item row="2" column="1">
-     <widget class="QSpinBox" name="spinBoxX"/>
+     <widget class="QSpinBox" name="spinBoxSIZE"/>
     </item>
    </layout>
   </widget>

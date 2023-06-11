@@ -6,6 +6,7 @@
 #include <QString>
 #include "Place.h"
 #include "Game.h"
+#include <QMessageBox>
 
 
 QT_BEGIN_NAMESPACE
@@ -26,6 +27,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void comunicate(Winner result);
 
 
 private slots:
