@@ -29,10 +29,10 @@ void MainWindow::on_addButton_clicked()
     int size = (ui->spinBoxSIZE->text()).toInt();
     int win = (ui->spinBoxWIN->text()).toInt();
 
-    if(size < win)
+    if(size < win && win <= 1)
     {
         QMessageBox msgBox;
-        msgBox.setText("The number of positions to win has to be less than the size. ");
+        msgBox.setText("The number of positions to win has to be less than the size and more than 1. ");
         msgBox.exec();
         return;
     }
@@ -142,6 +142,7 @@ void MainWindow::comunicate(Winner result)
         break;
 
     }
+
 
  return;
 }

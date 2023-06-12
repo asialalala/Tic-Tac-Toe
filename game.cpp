@@ -109,22 +109,29 @@ bool Game::getGameEnd()
 
 /*!
  * \brief Game::whoWin
- * \return
+ * \return information about winner following the demanded positions to win
  */
 Winner Game::whoWins()
 {
+    int score = 0;
     // verify vertical wil condition X
     for(int j = 0; j < SIZE; j++)
     {
+        score = 0; // end of column
         for(int i = 0; i < SIZE; i++)
         {
-            if(Places[i][j].getState() != x)
-                break;
-            if(i == SIZE-1) // end of board X won
+            if(Places[i][j].getState() == x)
             {
-                GameEnd = true;
-            //    qDebug() << "X wygrało wertykalnie.\n";
-                return xwins;
+                score++;
+
+                if(score == WIN) // end of board X won
+                {
+                    GameEnd = true;
+                    qDebug() << "X wygrało wertykalnie.\n";
+                    return xwins;
+                }
+            }else{
+                score = 0;
             }
         }
     }
@@ -132,15 +139,19 @@ Winner Game::whoWins()
     // verify vertical wil condition O
     for(int j = 0; j < SIZE; j++)
     {
+        score = 0; // end of column
         for(int i = 0; i < SIZE; i++)
         {
-            if(Places[i][j].getState() != o)
-                break;
-            if(i == SIZE-1) // end of board O won
+            if(Places[i][j].getState() == o)
             {
-                GameEnd = true;
-              //  qDebug() << "O wygrało wertykalnie.\n";
-                return owins;
+                score++;
+                if(score == WIN) // end of board O won
+                {
+                    GameEnd = true;
+                    return owins;
+                }
+            }else{
+                score=0;
             }
         }
     }
@@ -148,15 +159,20 @@ Winner Game::whoWins()
     // verify hirizontal wil condition X
     for(int j = 0; j < SIZE; j++)
     {
+        score = 0; // end of row
         for(int i = 0; i < SIZE; i++)
         {
-            if(Places[j][i].getState() != x)
-                break;
-            if(i == SIZE-1) // end of board X won
+            if(Places[j][i].getState() == x)
             {
-                GameEnd = true;
-                // qDebug() << "X wygrało horyzontalnie.\n";
-                return xwins;
+                score++;
+                if(score == WIN) // end of board X won
+                {
+                    GameEnd = true;
+                     qDebug() << "X wygrało horyzontalnie.\n";
+                    return xwins;
+                }
+            }else{
+                score=0;
             }
         }
     }
@@ -164,72 +180,142 @@ Winner Game::whoWins()
     // verify hirizontal wil condition O
     for(int j = 0; j < SIZE; j++)
     {
+        score = 0; // end of row
         for(int i = 0; i < SIZE; i++)
         {
-            if(Places[j][i].getState() != o)
-                break;
-            if(i == SIZE-1) // end of board O won
+            if(Places[j][i].getState() == o)
             {
-                GameEnd = true;
-                // qDebug() << "O wygrało horyzontalnie.\n";
-                return owins;
+                score++;
+                if(score == WIN) // end of board O won
+                {
+                    GameEnd = true;
+                     qDebug() << "O wygrało horyzontalnie.\n";
+                    return owins;
+                }
+            }else{
+                score = 0; // gap
             }
         }
     }
 
 
     // verify diagonary wil condition "\" X
-    for(int i = 0; i < SIZE; i++)
+    for(int p = 0; p < SIZE; p++) // upper triangle
     {
-        if(Places[i][i].getState() != x)
-            break;
-        if(i == SIZE-1) // end of board X won
+        int j = 0;
+        score = 0; // new diagon
+        for(int i = p; i < SIZE; i++)
         {
-            GameEnd = true;
-             // qDebug() << "X wygrało diagonalnie \\.\n";
-            return xwins;
+            if(Places[j][i].getState() == x)
+            {
+                score++;
+                if(score == WIN) // end of board X won
+                {
+                    GameEnd = true;
+                     qDebug() << "X wygrało diagonalnie \\.\n";
+                    return xwins;
+                }
+            }else
+            {
+                score = 0; // gap
+            }
+            j++;
+        }
+    }
+    for(int p = 1; p < SIZE; p++) // lower triangle
+    {
+        int j = 0;
+        score = 0; // new diagon
+        for(int i = p; i < SIZE; i++)
+        {
+            if(Places[i][j].getState() == x)
+            {
+                score++;
+                if(score == WIN) // end of board X won
+                {
+                    GameEnd = true;
+                     qDebug() << "X wygrało diagonalnie \\.\n";
+                    return xwins;
+                }
+            }else
+            {
+                score = 0; // gap
+            }
+            j++;
         }
     }
 
     // verify diagonary wil condition "\" O
-    for(int i = 0; i < SIZE; i++)
+    for(int p = 0; p < SIZE; p++) // upper triangle
     {
-        if(Places[i][i].getState() != o)
-            break;
-        if(i == SIZE-1) // end of board O won
+        int j = 0;
+        score = 0; // new diagon
+        for(int i = p; i < SIZE; i++)
         {
-            GameEnd = true;
-//            qDebug() << "O wygrało diagonalnie \\.\n";
-            return owins;
+            if(Places[j][i].getState() == o)
+            {
+                score++;
+                if(score == WIN) // end of board O won
+                {
+                    GameEnd = true;
+                    qDebug() << "O wygrało diagonalnie \\.\n";
+                    return owins;
+                }
+            }else{
+                score = 0;// gap
+            }
+            j++;
+        }
+    }
+    for(int p = 1; p < SIZE; p++) // lower triangle
+    {
+        int j = 0;
+        score = 0; // new diagon
+        for(int i = p; i < SIZE; i++)
+        {
+            if(Places[i][j].getState() == o)
+            {
+                score++;
+                if(score == WIN) // end of board X won
+                {
+                    GameEnd = true;
+                     qDebug() << "O wygrało diagonalnie \\.\n";
+                    return owins;
+                }
+            }else
+            {
+                score = 0; // gap
+            }
+            j++;
         }
     }
 
-    // verify diagonary wil condition "/" X
-    for(int i = 0; i < SIZE; i++)
-    {
-            if(Places[i][SIZE-i-1].getState() != x)
-                break;
-            if(i == SIZE-1) // end of board X won
-            {
-                GameEnd = true;
-//                qDebug() << "X wygrało diagonalnie /.\n";
-                return xwins;
-            }
+//    // verify diagonary wil condition "/" X
+//    for(int i = 0; i < SIZE; i++)
+//    {
+//            if(Places[i][SIZE-i-1].getState() != x)
+//                break;
+//            if(i == SIZE-1) // end of board X won
+//            {
+//                GameEnd = true;
+////                qDebug() << "X wygrało diagonalnie /.\n";
+//                return xwins;
+//            }
 
-    }
+//    }
 
-    // verify diagonary wil condition "/"
-    for(int i = 0; i < SIZE; i++)
-    {
-            if(Places[i][SIZE-i-1].getState() != o)
-                break;
-            if(i == SIZE-1) // end of board O won
-            {
-                GameEnd = true;
-//                qDebug() << "O wygrało diagonalnie /.\n";
-                return owins;
-            }
-    }
+//    // verify diagonary wil condition "/"
+//    for(int i = 0; i < SIZE; i++)
+//    {
+//            if(Places[i][SIZE-i-1].getState() != o)
+//                break;
+//            if(i == SIZE-1) // end of board O won
+//            {
+//                GameEnd = true;
+////                qDebug() << "O wygrało diagonalnie /.\n";
+//                return owins;
+//            }
+//    }
 
     // check if there is empty position
     for(int i = 0; i < SIZE; i++)
