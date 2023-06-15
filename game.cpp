@@ -302,7 +302,7 @@ Winner Game::whoWins()
                 if(score == WIN) // end of board X won
                 {
                     GameEnd = true;
-                    qDebug() << "X wygrało diagonalnie /.\n";
+//                    qDebug() << "X wygrało diagonalnie /.\n";
                     return xwins;
                 }
             }else{
@@ -323,7 +323,7 @@ Winner Game::whoWins()
                 if(score == WIN) // end of board X won
                 {
                     GameEnd = true;
-                    qDebug() << "X wygrało diagonalnie /.\n";
+//                    qDebug() << "X wygrało diagonalnie /.\n";
                     return xwins;
                 }
             }else{
@@ -346,7 +346,7 @@ Winner Game::whoWins()
                 if(score == WIN) // end of board X won
                 {
                     GameEnd = true;
-                    qDebug() << "O wygrało diagonalnie /.\n";
+//                    qDebug() << "O wygrało diagonalnie /.\n";
                     return owins;
                 }
             }else{
@@ -367,7 +367,7 @@ Winner Game::whoWins()
                 if(score == WIN) // end of board X won
                 {
                     GameEnd = true;
-                    qDebug() << "O wygrało diagonalnie /.\n";
+//                    qDebug() << "O wygrało diagonalnie /.\n";
                     return owins;
                 }
             }else{
@@ -478,7 +478,7 @@ void Game::AIMove()
     int bestMove[2] = {0,0} ;
     int minMaxEval = turn? INT_MIN : INT_MAX;
 
-    //
+    // chosen of first move
     if( (!turn && Places[SIZE/2][SIZE/2].getState() == Blank ) || (turn && moveNumber == 1  && Places[SIZE/2][SIZE/2].getState() == Blank) )
     {
         bestMove[0] = bestMove[1] = SIZE/2;
@@ -487,7 +487,7 @@ void Game::AIMove()
     {
         bestMove[0] = bestMove[1]  = SIZE/2 - 1;
 
-    }
+    }// chosen of the best move using minMax
     else{
     for(int i = 0; i < SIZE; i++)
     {

@@ -16,7 +16,7 @@ private:
     Place ** Places; // the places on the board                  a moze tu tworzyć tablicę wskaźników? a nie wskaźnik na tablicę
     bool GameEnd;
     bool turn = true; // true - x, false - o
-    int moveNumber;
+    int moveNumber; // count number of moves in game
 
 public:
     Game();
