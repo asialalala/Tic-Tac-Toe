@@ -11,6 +11,7 @@ Game::Game()
     Places = nullptr;
     GameEnd = false; // it is the beginning, not the end :)
     turn = true;
+    moveNumber = 0;
 }
 
 /*!
@@ -200,7 +201,7 @@ Winner Game::whoWins()
 
 
     // verify diagonary wil condition "\" X
-    for(int p = 0; p < SIZE; p++) // upper triangle
+    for(int p = 0; p < SIZE; p++) // upper left triangle
     {
         int j = 0;
         score = 0; // new diagon
@@ -222,7 +223,7 @@ Winner Game::whoWins()
             j++;
         }
     }
-    for(int p = 1; p < SIZE; p++) // lower triangle
+    for(int p = 1; p < SIZE; p++) // lower right triangle
     {
         int j = 0;
         score = 0; // new diagon
@@ -246,7 +247,7 @@ Winner Game::whoWins()
     }
 
     // verify diagonary wil condition "\" O
-    for(int p = 0; p < SIZE; p++) // upper triangle
+    for(int p = 0; p < SIZE; p++) // upper left triangle
     {
         int j = 0;
         score = 0; // new diagon
@@ -258,7 +259,6 @@ Winner Game::whoWins()
                 if(score == WIN) // end of board O won
                 {
                     GameEnd = true;
-                    qDebug() << "O wygrało diagonalnie \\.\n";
                     return owins;
                 }
             }else{
@@ -267,7 +267,7 @@ Winner Game::whoWins()
             j++;
         }
     }
-    for(int p = 1; p < SIZE; p++) // lower triangle
+    for(int p = 1; p < SIZE; p++) // lower  right triangle
     {
         int j = 0;
         score = 0; // new diagon
@@ -279,7 +279,6 @@ Winner Game::whoWins()
                 if(score == WIN) // end of board X won
                 {
                     GameEnd = true;
-                     qDebug() << "O wygrało diagonalnie \\.\n";
                     return owins;
                 }
             }else
@@ -290,32 +289,93 @@ Winner Game::whoWins()
         }
     }
 
-//    // verify diagonary wil condition "/" X
-//    for(int i = 0; i < SIZE; i++)
-//    {
-//            if(Places[i][SIZE-i-1].getState() != x)
-//                break;
-//            if(i == SIZE-1) // end of board X won
-//            {
-//                GameEnd = true;
-////                qDebug() << "X wygrało diagonalnie /.\n";
-//                return xwins;
-//            }
+    // verify diagonary wil condition "/" X
+    for(int p = 0; p < SIZE; p++) // upper left triangle
+    {
+        score = 0; // new diagon
+        int j = 0;
+        for(int i = p; i >= 0; i--)
+        {
+            if(Places[i][j].getState() == x)
+            {
+                score++;
+                if(score == WIN) // end of board X won
+                {
+                    GameEnd = true;
+                    qDebug() << "X wygrało diagonalnie /.\n";
+                    return xwins;
+                }
+            }else{
+                score = 0;
+            }
+            j++;
+        }
+    }
+    for(int p = 0; p < SIZE; p++) // lower right triange
+    {
+        int j = SIZE - 1;
+        score = 0; // new diagon
+        for(int i = p; i < SIZE; i++)
+        {
+            if(Places[j][i].getState() == x)
+            {
+                score++;
+                if(score == WIN) // end of board X won
+                {
+                    GameEnd = true;
+                    qDebug() << "X wygrało diagonalnie /.\n";
+                    return xwins;
+                }
+            }else{
+                score = 0;
+            }
+            j--;
+        }
+    }
 
-//    }
-
-//    // verify diagonary wil condition "/"
-//    for(int i = 0; i < SIZE; i++)
-//    {
-//            if(Places[i][SIZE-i-1].getState() != o)
-//                break;
-//            if(i == SIZE-1) // end of board O won
-//            {
-//                GameEnd = true;
-////                qDebug() << "O wygrało diagonalnie /.\n";
-//                return owins;
-//            }
-//    }
+    // verify diagonary wil condition "/"
+    for(int p = 0; p < SIZE; p++) // upper left triangle
+    {
+        score = 0; // new diagon
+        int j = 0;
+        for(int i = p; i >= 0; i--)
+        {
+            if(Places[i][j].getState() == o)
+            {
+                score++;
+                if(score == WIN) // end of board X won
+                {
+                    GameEnd = true;
+                    qDebug() << "O wygrało diagonalnie /.\n";
+                    return owins;
+                }
+            }else{
+                score = 0;
+            }
+            j++;
+        }
+    }
+    for(int p = 0; p < SIZE; p++) // lower right triange
+    {
+        int j = SIZE - 1;
+        score = 0; // new diagon
+        for(int i = p; i < SIZE; i++)
+        {
+            if(Places[j][i].getState() == o)
+            {
+                score++;
+                if(score == WIN) // end of board X won
+                {
+                    GameEnd = true;
+                    qDebug() << "O wygrało diagonalnie /.\n";
+                    return owins;
+                }
+            }else{
+                score = 0;
+            }
+            j--;
+        }
+    }
 
     // check if there is empty position
     for(int i = 0; i < SIZE; i++)
@@ -418,6 +478,17 @@ void Game::AIMove()
     int bestMove[2] = {0,0} ;
     int minMaxEval = turn? INT_MIN : INT_MAX;
 
+    //
+    if( (!turn && Places[SIZE/2][SIZE/2].getState() == Blank ) || (turn && moveNumber == 1  && Places[SIZE/2][SIZE/2].getState() == Blank) )
+    {
+        bestMove[0] = bestMove[1] = SIZE/2;
+    }
+    else if(turn && moveNumber == 1  && Places[SIZE/2 -1][SIZE/2 - 1].getState() == Blank )
+    {
+        bestMove[0] = bestMove[1]  = SIZE/2 - 1;
+
+    }
+    else{
     for(int i = 0; i < SIZE; i++)
     {
         for(int j = 0; j < SIZE; j++)
@@ -425,7 +496,7 @@ void Game::AIMove()
             if(Places[i][j].getState() == Blank)
             {
                 Places[i][j].setState(turn? x : o );
-                int eval = miniMax(SEARCH_DEPH, INT_MIN, INT_MAX, false);
+                int eval = miniMax(SEARCH_DEPH, INT_MIN, INT_MAX, !turn);
                 // restor beginning setting
                 setGameEnd(false);
                 Places[i][j].setState(Blank);
@@ -439,14 +510,23 @@ void Game::AIMove()
                        bestMove[1] = j;
                        minMaxEval = eval;
                    }
+                }else{
+                    if(eval < minMaxEval)
+                    {
+                        bestMove[0] = i;
+                        bestMove[1] = j;
+                        minMaxEval = eval;
+                    }
                 }
             }
         }
     }
-    Places[bestMove[0]][bestMove[1]].setState(x);
-    Places[bestMove[0]][bestMove[1]].setText("x");
-    Places[bestMove[0]][bestMove[1]].setEnabled(false);
-
+}
+    // visualizate move
+    turn?Places[bestMove[0]][bestMove[1]].setState(x):Places[bestMove[0]][bestMove[1]].setState(o); // save information about state
+    turn?Places[bestMove[0]][bestMove[1]].setText("x"):Places[bestMove[0]][bestMove[1]].setText("o"); // set "o" or "x"
+    Places[bestMove[0]][bestMove[1]].setEnabled(false); // turn off the button
+    increaseMoveNumber(); // count the omve
 }
 
 /*!
@@ -464,4 +544,22 @@ void Game::reset()
         }
     }
     GameEnd = false;
+}
+
+/*!
+ * \brief Game::setTurn
+ * \param t - true - user is o, false - user is x
+ */
+void Game::setTurn(bool t)
+{
+    turn = t;
+}
+
+
+/*!
+ * \brief Game::increaseMoveNumber
+ */
+void Game::increaseMoveNumber()
+{
+    moveNumber++;
 }

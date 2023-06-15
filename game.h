@@ -16,6 +16,7 @@ private:
     Place ** Places; // the places on the board                  a moze tu tworzyć tablicę wskaźników? a nie wskaźnik na tablicę
     bool GameEnd;
     bool turn = true; // true - x, false - o
+    int moveNumber;
 
 public:
     Game();
@@ -28,11 +29,13 @@ public:
     void allocatePlaces();
     void AIMove() ;
     bool getTurn() const;
+    void setTurn(bool t);
     void setGameEnd(bool value);
     int miniMax(int depth, int alpha, int beta, bool turn);
     Winner whoWins();
     bool getGameEnd();
     void reset();
+    void increaseMoveNumber();
 };
 
 #endif // GAME_H

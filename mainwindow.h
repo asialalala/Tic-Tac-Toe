@@ -34,6 +34,7 @@ private slots:
     void on_addButton_clicked();// SLOT-handler pressing add button
     void slotPut0(); // SLOT for wiriting o on the clicked button
     void on_pushButtonReset_clicked(); // reset game
+    void on_checkBox_stateChanged(int check); // decision if user plais o or x
 
 private:
     Ui::MainWindow *ui;

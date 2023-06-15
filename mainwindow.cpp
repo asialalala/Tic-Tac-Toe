@@ -29,10 +29,12 @@ void MainWindow::on_addButton_clicked()
     int size = (ui->spinBoxSIZE->text()).toInt();
     int win = (ui->spinBoxWIN->text()).toInt();
 
-    if(size < win && win <= 1)
+    ui->checkBox->setEnabled(false); // turn of checkBox
+
+    if(size < win || win <= 1 || size <= 0)
     {
         QMessageBox msgBox;
-        msgBox.setText("The number of positions to win has to be less than the size and more than 1. ");
+        msgBox.setText("The number of positions to win has to be less than the size, number win and size have to be more than 1.");
         msgBox.exec();
         return;
     }
@@ -51,6 +53,7 @@ void MainWindow::on_addButton_clicked()
             Place * button = &(game.getPlaces()[i][j]);
 
             ui->gridLayout->addWidget(button, i, j);
+            button->setStyleSheet("height: 48px; width: 48px; font-size: 36px");
             // Connect the signal to the slot pressing buttons set 'o' and trigger AI
             connect(button, SIGNAL(clicked()), this, SLOT(slotPut0()));
 
@@ -59,12 +62,16 @@ void MainWindow::on_addButton_clicked()
 
     ui->addButton->setEnabled(false); // turn off the button of adding places
 
+    // if AI is o, AI has to strt the game
+    if(!game.getTurn())
+        game.AIMove();
+
 }
 
 
 /*!
- * \brief MainWindow::slotPut0 set "o" on the button and enable
- * the button
+ * \brief MainWindow::slotPut0 set "o" or "x" on the button and enable
+ * the button and than call AImove
  */
 void MainWindow::slotPut0()
 {
@@ -75,10 +82,11 @@ void MainWindow::slotPut0()
     int i, j, spanI, spanJ = 0;
     ui->gridLayout->getItemPosition(ui->gridLayout->indexOf(widget), &i, &j, &spanI, &spanJ);
 
-    game.getPlaces()[i][j].setText("o"); // set "o"
-    game.getPlaces()[i][j].setState(o); // save information about state
+    // vizualizate move
+    game.getTurn()?game.getPlaces()[i][j].setText("o"):game.getPlaces()[i][j].setText("x"); // set "o" or "x"
+    game.getTurn()?game.getPlaces()[i][j].setState(o):game.getPlaces()[i][j].setState(State::x); // save information about state
     game.getPlaces()[i][j].setEnabled(false); // turn off the button
-
+    game.increaseMoveNumber();
     Winner result = game.whoWins();
 
     comunicate(result);
@@ -86,7 +94,7 @@ void MainWindow::slotPut0()
     if(!game.getGameEnd()) // if it is not end AI plaies
     {
         game.AIMove(); // AI turn
-        result = game.whoWins(); // chech if AI has won
+        result = game.whoWins(); // check if AI has won
         comunicate(result);
     }
 }
@@ -154,5 +162,16 @@ void MainWindow::on_pushButtonReset_clicked()
 {
     game.reset();
     ui->pushButtonReset->setEnabled(false);
+}
+
+
+/*!
+ * \brief MainWindow::on_checkBox_stateChanged
+ * \param check - 1 when cheked = user is playing x
+ *              - o when is not checked = user is playing o
+ */
+void MainWindow::on_checkBox_stateChanged(int check)
+{
+    game.setTurn(!check);
 }
 
